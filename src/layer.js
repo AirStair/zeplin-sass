@@ -10,17 +10,19 @@ function getVariableMap(projectColors) {
 }
 
 function filterDeclarations(declarations, textStyleMatch) {
-  return declarations.filter(d => {
+  return declarations.filter(declaration => {
     if (
       textStyleMatch &&
-      (d.name === 'font-size' ||
-        d.name === 'letter-spacing' ||
-        d.name === 'line-height')
+      (declaration.name === 'font-size' ||
+        declaration.name === 'font-weight' ||
+        declaration.name === 'font-family' ||
+        declaration.name === 'letter-spacing' ||
+        declaration.name === 'line-height')
     ) {
       return false
     }
 
-    return !(d.hasDefaultValue && d.hasDefaultValue())
+    return !(declaration.hasDefaultValue && declaration.hasDefaultValue())
   })
 }
 
@@ -37,7 +39,7 @@ function declarationsToString(declarations, variableMap, textStyleMatch) {
   const rules = [
     ...textStyleMixins,
     ...filteredDeclarations.map(
-      d => `  ${d.name}: ${d.getValue({ densityDivisor: 1 }, variableMap)};`
+      declaration => `  ${declaration.name}: ${declaration.getValue({ densityDivisor: 1 }, variableMap)};`
     )
   ]
 
@@ -47,15 +49,15 @@ function declarationsToString(declarations, variableMap, textStyleMatch) {
 export default function layer(context, selectedLayer) {
     let code = '';
     const setCode = (currentLayer, custom = '') => {
-        const l = new Layer(currentLayer)
-        const layerRuleSet = l.style
+        const Layer_ = new Layer(currentLayer)
+        const layerRuleSet = Layer_.style
         const { defaultTextStyle } = currentLayer
         const isText = currentLayer.type === 'text' && defaultTextStyle
         const textStyleMatch = isText ? context.project.findTextStyleEqual(defaultTextStyle) : undefined
 
         if (isText) {
-            const declarations = l.getLayerTextStyleDeclarations(defaultTextStyle)
-            declarations.forEach(p => layerRuleSet.addDeclaration(p))
+            const declarations = Layer_.getLayerTextStyleDeclarations(defaultTextStyle)
+            declarations.forEach(declaration => layerRuleSet.addDeclaration(declaration))
         }
 
         const variableMap = getVariableMap(context.project.colors)
@@ -79,8 +81,8 @@ export default function layer(context, selectedLayer) {
             currentLayer.layers.forEach(layer => {
                 fillPositions(layer)
             })
-            topPositions = topPositions.filter((v, i, a) => a.indexOf(v) === i)
-            leftPositions = leftPositions.filter((v, i, a) => a.indexOf(v) === i)
+            topPositions = topPositions.filter((value, index, array_) => array_.indexOf(value) === index)
+            leftPositions = leftPositions.filter((value, index, array_) => array_.indexOf(value) === index)
             currentLayer.layers.forEach((layer, index) => {
                 setCode(layer, getPosition(layer, index))
             })
