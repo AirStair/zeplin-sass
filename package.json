@@ -1,0 +1,24 @@
+{
+  "name": "sass-extension",
+  "version": "0.1.0",
+  "description": "",
+  "sideEffects": false,
+  "scripts": {
+    "start": "zem start",
+    "build": "zem build",
+    "clean": "zem clean",
+    "exec": "zem exec",
+    "test": "zem test",
+    "publish": "zem publish"
+  },
+  "zeplin": {
+    "displayName": "Sass Extension",
+    "platforms": [
+      "web"
+    ]
+  },
+  "dependencies": {
+    "zem": "^1.3.0",
+    "zeplin-extension-style-kit": "^1.0.0"
+  }
+}
