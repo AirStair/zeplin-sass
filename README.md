@@ -1,2 +1,2 @@
-[zeplin-sass.png]
+(zeplin-sass.png)
 # Zeplin Sass Extension
