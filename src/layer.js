@@ -14,7 +14,6 @@ function filterDeclarations(declarations, textStyleMatch) {
     if (
       textStyleMatch &&
       (d.name === 'font-size' ||
-        d.name === 'font-family' ||
         d.name === 'letter-spacing' ||
         d.name === 'line-height')
     ) {
